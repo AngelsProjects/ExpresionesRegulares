@@ -38,14 +38,12 @@ public class Archivos {
             String line;
             int y = 0;
             while ((line = reader.readLine()) != null) {
-                if (tokenPatron[y][0].contains("λ")) {
-                    tokenPatron[y][0].replaceAll("λ", "");
-                }
-                if (tokenPatron[y][1].contains("λ")) {
-                    tokenPatron[y][1].replaceAll("λ", "");
-                }
                 tokenPatron[y][0] = line.substring(1, (line.indexOf(";") - 1));
                 tokenPatron[y][1] = line.substring(line.indexOf(";") + 1);
+                if (tokenPatron[y][1].contains("λ")) {
+                    String replace = tokenPatron[y][1].replace("λ", "");
+                    tokenPatron[y][1] = replace;
+                }
                 y++;
             }
             reader.close();
