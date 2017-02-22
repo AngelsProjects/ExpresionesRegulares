@@ -14,7 +14,7 @@ public class View extends javax.swing.JFrame {
     File archivo;
     File tokens;
     Archivos files = new Archivos();
-    ArrayList<String> contentFile;
+    ArrayList<Ejemplos> contentFile;
     ArrayList<Tokens> contentToken;
 
     public View() {
@@ -42,6 +42,7 @@ public class View extends javax.swing.JFrame {
         ct = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         openFile.setText("Browse");
         openFile.setEnabled(false);
@@ -122,38 +123,39 @@ public class View extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fileSearch1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ct)
+                        .addGap(30, 30, 30)
+                        .addComponent(pathToken, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(openToken))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fileSearch)
+                        .addGap(53, 53, 53)
+                        .addComponent(df)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cf)
+                        .addGap(30, 30, 30)
+                        .addComponent(pathFile, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(openFile)))
+                .addGap(77, 77, 77))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fileSearch1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(dt)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ct)
-                                .addGap(30, 30, 30)
-                                .addComponent(pathToken, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(openToken))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fileSearch)
-                                .addGap(53, 53, 53)
-                                .addComponent(df)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cf)
-                                .addGap(30, 30, 30)
-                                .addComponent(pathFile, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(openFile))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(220, 220, 220)
-                        .addComponent(showResult)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(showResult)
+                        .addGap(277, 277, 277))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,9 +174,9 @@ public class View extends javax.swing.JFrame {
                     .addComponent(df)
                     .addComponent(cf)
                     .addComponent(fileSearch))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(showResult)
                 .addContainerGap())
         );
@@ -215,7 +217,8 @@ public void proveToken() {
     }//GEN-LAST:event_openFileActionPerformed
 
     private void showResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showResultActionPerformed
-        contentFile = new ArrayList<String>();
+        contenido.setText(null);
+        contentFile = new ArrayList<Ejemplos>();
         if (dt.isSelected()) {
             contentToken = files.OpenToken("src/recursos/Tokens.txt");
         } else if (pathToken.getText().endsWith("txt")) {
@@ -331,24 +334,23 @@ public void proveToken() {
     // End of variables declaration//GEN-END:variables
 
     private void verificarTokens() {
-        for (String result : contentFile) {
+        for (Ejemplos result : contentFile) {
             boolean flag = false;
             String names = null;
             for (int x = 0; x < contentToken.size(); x++) {
                 //Pattern pat = Pattern.compile(contentToken[x][1]);
                 //Matcher mat = pat.matcher(result);
-                if (result.matches(contentToken.get(x).getExpression())/*mat.find()*/) {
+                if (result.getDefinicion().matches(contentToken.get(x).getExpression())/*mat.find()*/) {
                     flag = true;
                     names = contentToken.get(x).getName();
                 }
             }
             if (flag == true) {
-                result = result + " " + names;
+                result.setResultado(names);
             } else {
-                result = result + " " + "Error";
+                result.setResultado("Error");
             }
-            contenido.append(result);
-            contenido.append("\n");
+            contenido.append(result.getDefinicion() + "\t" + result.getResultado() + "\n");
         }
     }
 }

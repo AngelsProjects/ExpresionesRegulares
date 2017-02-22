@@ -4,25 +4,25 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Archivos {
-    
+
     File entrada;
     FileOutputStream salida;
     File archivo;
     BufferedReader reader;
     String text = "";
-    ArrayList<String> linesFile;
-    
+    ArrayList<Ejemplos> linesFile;
+
     ArrayList<Tokens> tokenPatron;
     String[] comparativo;
     LineNumberReader lineNumberReader;
-    
+
     public Archivos() {
-        
+
     }
 //Abrir archivo de texto
 
     public ArrayList<Tokens> OpenToken(String direccion) {
-        
+
         try {
             tokenPatron = new ArrayList<Tokens>();
             entrada = new File(direccion);
@@ -37,7 +37,7 @@ public class Archivos {
             int y = 0;
             while ((line = reader.readLine()) != null) {
                 tokenPatron.add(new Tokens(line.substring(1, (line.indexOf(";") - 1)), line.substring(line.indexOf(";") + 1)));
-                
+
                 if (tokenPatron.get(y).getExpression().contains("λ")) {
                     String replace = tokenPatron.get(y).getExpression().replace("λ", "");
                     tokenPatron.get(y).setExpression(replace);
@@ -50,10 +50,10 @@ public class Archivos {
         }
         return tokenPatron;
     }
-    
-    public ArrayList<String> OpenFile(String direccion) {
+
+    public ArrayList<Ejemplos> OpenFile(String direccion) {
         try {
-            linesFile = new ArrayList<String>();
+            linesFile = new ArrayList<Ejemplos>();
             entrada = new File(direccion);
             reader = new BufferedReader(new FileReader(entrada));
             String line;
@@ -61,15 +61,15 @@ public class Archivos {
                 if (!linesFile.isEmpty()) {
                     boolean flag = false;
                     for (int x = 0; x < linesFile.size(); x++) {
-                        if (linesFile.get(x).equals(line)) {
+                        if (linesFile.get(x).getDefinicion().equals(line)) {
                             flag = true;
                         }
                     }
                     if (flag == false) {
-                        linesFile.add(line);
+                        linesFile.add(new Ejemplos(line, null));
                     }
                 } else {
-                    linesFile.add(line);
+                    linesFile.add(new Ejemplos(line, null));
                 }
             }
             reader.close();
@@ -92,7 +92,7 @@ public class Archivos {
         }
         return respuesta;
     }
-    
+
     boolean canread(String direccion) {
         File f = new File(direccion);
         if (f.canRead()) {
@@ -100,7 +100,7 @@ public class Archivos {
         } else {
             return false;
         }
-        
+
     }
-    
+
 }
