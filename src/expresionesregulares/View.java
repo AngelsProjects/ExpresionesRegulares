@@ -15,7 +15,7 @@ public class View extends javax.swing.JFrame {
     File tokens;
     Archivos files = new Archivos();
     ArrayList<String> contentFile;
-    String[][] contentToken;
+    ArrayList<Tokens> contentToken;
 
     public View() {
         initComponents();
@@ -332,21 +332,14 @@ public void proveToken() {
 
     private void verificarTokens() {
         for (String result : contentFile) {
-            /*boolean flag = false;
-            String names = null;
-            if (result.matches("[A-Za-z]+")) {
-                result = result + " " + names;
-            } else {
-                
-            }*/
             boolean flag = false;
             String names = null;
-            for (int x = 0; x < contentToken.length; x++) {
+            for (int x = 0; x < contentToken.size(); x++) {
                 //Pattern pat = Pattern.compile(contentToken[x][1]);
                 //Matcher mat = pat.matcher(result);
-                if (result.matches(contentToken[x][1])/*mat.find()*/) {
+                if (result.matches(contentToken.get(x).getExpression())/*mat.find()*/) {
                     flag = true;
-                    names = contentToken[x][0];
+                    names = contentToken.get(x).getName();
                 }
             }
             if (flag == true) {

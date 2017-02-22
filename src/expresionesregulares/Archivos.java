@@ -2,47 +2,45 @@ package expresionesregulares;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Archivos {
-
+    
     File entrada;
     FileOutputStream salida;
     File archivo;
     BufferedReader reader;
     String text = "";
     ArrayList<String> linesFile;
-
-    String[][] tokenPatron;
+    
+    ArrayList<Tokens> tokenPatron;
     String[] comparativo;
-
+    LineNumberReader lineNumberReader;
+    
     public Archivos() {
-
+        
     }
 //Abrir archivo de texto
 
-    public String[][] OpenToken(String direccion) {
-
+    public ArrayList<Tokens> OpenToken(String direccion) {
+        
         try {
+            tokenPatron = new ArrayList<Tokens>();
             entrada = new File(direccion);
-            LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(entrada));
+            lineNumberReader = new LineNumberReader(new FileReader(entrada));
             int lines = 0;
             while (lineNumberReader.readLine() != null) {
                 lines++;
             }
-            tokenPatron = new String[lines][2];
             lineNumberReader.close();
             reader = new BufferedReader(new FileReader(entrada));
             String line;
             int y = 0;
             while ((line = reader.readLine()) != null) {
-                tokenPatron[y][0] = line.substring(1, (line.indexOf(";") - 1));
-                tokenPatron[y][1] = line.substring(line.indexOf(";") + 1);
-                if (tokenPatron[y][1].contains("λ")) {
-                    String replace = tokenPatron[y][1].replace("λ", "");
-                    tokenPatron[y][1] = replace;
+                tokenPatron.add(new Tokens(line.substring(1, (line.indexOf(";") - 1)), line.substring(line.indexOf(";") + 1)));
+                
+                if (tokenPatron.get(y).getExpression().contains("λ")) {
+                    String replace = tokenPatron.get(y).getExpression().replace("λ", "");
+                    tokenPatron.get(y).setExpression(replace);
                 }
                 y++;
             }
@@ -52,7 +50,7 @@ public class Archivos {
         }
         return tokenPatron;
     }
-
+    
     public ArrayList<String> OpenFile(String direccion) {
         try {
             linesFile = new ArrayList<String>();
@@ -94,7 +92,7 @@ public class Archivos {
         }
         return respuesta;
     }
-
+    
     boolean canread(String direccion) {
         File f = new File(direccion);
         if (f.canRead()) {
@@ -102,7 +100,7 @@ public class Archivos {
         } else {
             return false;
         }
-
+        
     }
-
+    
 }
