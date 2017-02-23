@@ -8,11 +8,11 @@ public class Archivos {
     File entrada;
     FileOutputStream salida;
     BufferedReader reader;
+    BufferedWriter bw;
     ArrayList<Ejemplos> linesFile;
     ArrayList<Tokens> tokenPatron;
-    LineNumberReader lineNumberReader;
-
 //Abrir archivo de texto
+
     public ArrayList<Tokens> OpenToken(String direccion) {
 
         try {
@@ -25,6 +25,10 @@ public class Archivos {
                 tokenPatron.add(new Tokens(line.substring(1, (line.indexOf(";") - 1)), line.substring(line.indexOf(";") + 1)));
                 if (tokenPatron.get(y).getExpression().contains("//")) {
                     String replace = tokenPatron.get(y).getExpression().replace("//", "[/][/]");
+                    tokenPatron.get(y).setExpression(replace);
+                }
+                if (tokenPatron.get(y).getExpression().contains("@")) {
+                    String replace = tokenPatron.get(y).getExpression().replace("@", "[@]");
                     tokenPatron.get(y).setExpression(replace);
                 }
                 if (tokenPatron.get(y).getExpression().contains(".")) {
@@ -76,20 +80,6 @@ public class Archivos {
         return linesFile;
     }
 
-//guardar archivo texto
-    public String SaveText(File archivo, String contenido) {
-        String respuesta = null;
-        try {
-            salida = new FileOutputStream(archivo);
-            byte[] byteTxt = contenido.getBytes();
-            salida.write(byteTxt);
-            respuesta = "se guardo con exito el archivo.";
-        } catch (Exception e) {
-            System.err.println("Problema en: " + e);
-        }
-        return respuesta;
-    }
-
     boolean canread(String direccion) {
         File f = new File(direccion);
         if (f.canRead()) {
@@ -98,6 +88,24 @@ public class Archivos {
             return false;
         }
 
+    }
+
+    String SaveText(File archivo, ArrayList<Ejemplos> contentFile) {
+        String respuesta = null;
+        try {
+            salida = new FileOutputStream(archivo);
+            bw = new BufferedWriter(new OutputStreamWriter(salida));
+            for (Ejemplos end : contentFile) {
+                bw.write(end.getDefinicion() + "\t" + end.getResultado());
+                bw.newLine();
+            }
+            bw.close();
+            respuesta = "se guardo con exito el archivo.";
+        } catch (Exception e) {
+            System.err.println("Problema en: " + e);
+            respuesta = "No se pudo guardar el archivo.";
+        }
+        return respuesta;
     }
 
 }

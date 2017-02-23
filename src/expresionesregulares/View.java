@@ -121,6 +121,11 @@ public class View extends javax.swing.JFrame {
         });
 
         save.setText("Save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -286,6 +291,19 @@ public void proveToken() {
     private void cfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cfActionPerformed
         proveFile();
     }//GEN-LAST:event_cfActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        if (seleccionado.showDialog(null, "Save File") == JFileChooser.APPROVE_OPTION) {
+            archivo = seleccionado.getSelectedFile();
+            if (archivo.getName().endsWith("txt")) {
+                String cont=contenido.getText();
+                String respuesta=files.SaveText(archivo, contentFile);
+                    JOptionPane.showMessageDialog(null, respuesta);
+            } else {
+                JOptionPane.showMessageDialog(null, "El archivo se debe guardar como .txt");
+            }
+        }
+    }//GEN-LAST:event_saveActionPerformed
 
     /**
      * @param args the command line arguments
