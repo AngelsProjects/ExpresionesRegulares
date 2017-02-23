@@ -25,5 +25,4 @@ public class Ejemplos {
     public void setResultado(String resultado) {
         this.resultado = resultado;
     }
-
 }

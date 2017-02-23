@@ -81,7 +81,6 @@ public class Archivos {
     boolean canread(String direccion) {
         File f = new File(direccion);
         return f.canRead();
-
     }
 
     String SaveText(File archivo, ArrayList<Ejemplos> contentFile) {
