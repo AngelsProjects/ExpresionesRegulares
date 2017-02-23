@@ -2,9 +2,6 @@ package expresionesregulares;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -230,7 +227,7 @@ public void proveToken() {
 
     private void showResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showResultActionPerformed
         contenido.setText(null);
-        contentFile = new ArrayList<Ejemplos>();
+        contentFile = new ArrayList<>();
         if (dt.isSelected()) {
             contentToken = files.OpenToken("src/recursos/Tokens.txt");
         } else if (pathToken.getText().endsWith("txt")) {
@@ -277,7 +274,6 @@ public void proveToken() {
     }//GEN-LAST:event_dtActionPerformed
 
     private void pathFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathFileActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_pathFileActionPerformed
 
     private void ctActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ctActionPerformed
@@ -293,7 +289,8 @@ public void proveToken() {
     }//GEN-LAST:event_cfActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        if (seleccionado.showDialog(null, "Save File") == JFileChooser.APPROVE_OPTION) {
+        if(!contenido.getText().trim().equals("")){
+            if (seleccionado.showDialog(null, "Save File") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionado.getSelectedFile();
             if (archivo.getName().endsWith("txt")) {
                 String cont=contenido.getText();
@@ -303,17 +300,13 @@ public void proveToken() {
                 JOptionPane.showMessageDialog(null, "El archivo se debe guardar como .txt");
             }
         }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un archivo txt primero");
+        }
+        
     }//GEN-LAST:event_saveActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -321,22 +314,11 @@ public void proveToken() {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new View().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new View().setVisible(true);
         });
     }
 
@@ -360,13 +342,11 @@ public void proveToken() {
     // End of variables declaration//GEN-END:variables
 
     private void verificarTokens() {
-        for (Ejemplos result : contentFile) {
+        contentFile.stream().map((result) -> {
             boolean flag = false;
             String names = null;
             for (int x = 0; x < contentToken.size(); x++) {
-                //Pattern pat = Pattern.compile(contentToken[x][1]);
-                //Matcher mat = pat.matcher(result);
-                if (result.getDefinicion().matches(contentToken.get(x).getExpression())/*mat.find()*/) {
+                if (result.getDefinicion().matches(contentToken.get(x).getExpression())) {
                     flag = true;
                     names = contentToken.get(x).getName();
                 }
@@ -376,7 +356,9 @@ public void proveToken() {
             } else {
                 result.setResultado("Error");
             }
+            return result;
+        }).forEach((result) -> {
             contenido.append(result.getDefinicion() + "\t" + result.getResultado() + "\n");
-        }
+        });
     }
 }

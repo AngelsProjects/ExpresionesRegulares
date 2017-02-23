@@ -11,12 +11,10 @@ public class Archivos {
     BufferedWriter bw;
     ArrayList<Ejemplos> linesFile;
     ArrayList<Tokens> tokenPatron;
-//Abrir archivo de texto
 
     public ArrayList<Tokens> OpenToken(String direccion) {
-
         try {
-            tokenPatron = new ArrayList<Tokens>();
+            tokenPatron = new ArrayList<>();
             entrada = new File(direccion);
             reader = new BufferedReader(new FileReader(entrada));
             String line;
@@ -54,7 +52,7 @@ public class Archivos {
 
     public ArrayList<Ejemplos> OpenFile(String direccion) {
         try {
-            linesFile = new ArrayList<Ejemplos>();
+            linesFile = new ArrayList<>();
             entrada = new File(direccion);
             reader = new BufferedReader(new FileReader(entrada));
             String line;
@@ -82,16 +80,12 @@ public class Archivos {
 
     boolean canread(String direccion) {
         File f = new File(direccion);
-        if (f.canRead()) {
-            return true;
-        } else {
-            return false;
-        }
+        return f.canRead();
 
     }
 
     String SaveText(File archivo, ArrayList<Ejemplos> contentFile) {
-        String respuesta = null;
+        String respuesta;
         try {
             salida = new FileOutputStream(archivo);
             bw = new BufferedWriter(new OutputStreamWriter(salida));
@@ -107,5 +101,4 @@ public class Archivos {
         }
         return respuesta;
     }
-
 }
