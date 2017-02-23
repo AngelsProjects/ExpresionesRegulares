@@ -40,6 +40,7 @@ public class View extends javax.swing.JFrame {
         pathToken = new javax.swing.JTextField();
         dt = new javax.swing.JRadioButton();
         ct = new javax.swing.JRadioButton();
+        save = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -119,6 +120,8 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        save.setText("Save");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,7 +158,9 @@ public class View extends javax.swing.JFrame {
                         .addGap(62, 62, 62))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(showResult)
-                        .addGap(277, 277, 277))))
+                        .addGap(90, 90, 90)
+                        .addComponent(save)
+                        .addGap(208, 208, 208))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +182,9 @@ public class View extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(showResult)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showResult)
+                    .addComponent(save))
                 .addContainerGap())
         );
 
@@ -330,6 +337,7 @@ public void proveToken() {
     private javax.swing.JButton openToken;
     private javax.swing.JTextField pathFile;
     private javax.swing.JTextField pathToken;
+    private javax.swing.JButton save;
     private javax.swing.JButton showResult;
     // End of variables declaration//GEN-END:variables
 

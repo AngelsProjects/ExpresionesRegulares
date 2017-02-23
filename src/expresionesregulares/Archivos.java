@@ -7,37 +7,34 @@ public class Archivos {
 
     File entrada;
     FileOutputStream salida;
-    File archivo;
     BufferedReader reader;
-    String text = "";
     ArrayList<Ejemplos> linesFile;
-
     ArrayList<Tokens> tokenPatron;
-    String[] comparativo;
     LineNumberReader lineNumberReader;
 
-    public Archivos() {
-
-    }
 //Abrir archivo de texto
-
     public ArrayList<Tokens> OpenToken(String direccion) {
 
         try {
             tokenPatron = new ArrayList<Tokens>();
             entrada = new File(direccion);
-            lineNumberReader = new LineNumberReader(new FileReader(entrada));
-            int lines = 0;
-            while (lineNumberReader.readLine() != null) {
-                lines++;
-            }
-            lineNumberReader.close();
             reader = new BufferedReader(new FileReader(entrada));
             String line;
             int y = 0;
             while ((line = reader.readLine()) != null) {
                 tokenPatron.add(new Tokens(line.substring(1, (line.indexOf(";") - 1)), line.substring(line.indexOf(";") + 1)));
-
+                if (tokenPatron.get(y).getExpression().contains("//")) {
+                    String replace = tokenPatron.get(y).getExpression().replace("//", "[/][/]");
+                    tokenPatron.get(y).setExpression(replace);
+                }
+                if (tokenPatron.get(y).getExpression().contains(".")) {
+                    String replace = tokenPatron.get(y).getExpression().replace(".", "[.]");
+                    tokenPatron.get(y).setExpression(replace);
+                }
+                if (tokenPatron.get(y).getExpression().contains(":")) {
+                    String replace = tokenPatron.get(y).getExpression().replace(":", "[:]");
+                    tokenPatron.get(y).setExpression(replace);
+                }
                 if (tokenPatron.get(y).getExpression().contains("λ")) {
                     String replace = tokenPatron.get(y).getExpression().replace("λ", "");
                     tokenPatron.get(y).setExpression(replace);
