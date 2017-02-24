@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 
 public class View extends javax.swing.JFrame {
 
-    JFileChooser seleccionado = new JFileChooser();
+    JFileChooser seleccionado;
     File archivo;
     File tokens;
-    Archivos files = new Archivos();
+    Archivos files;
     ArrayList<Ejemplos> contentFile;
     ArrayList<Tokens> contentToken;
 
@@ -192,27 +192,9 @@ public class View extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public void proveToken() {
-        if (dt.isSelected()) {
-            pathToken.setEnabled(false);
-            openToken.setEnabled(false);
-        } else {
-            pathToken.setEnabled(true);
-            openToken.setEnabled(true);
-        }
-    }
-
-    public void proveFile() {
-        if (df.isSelected()) {
-            pathFile.setEnabled(false);
-            openFile.setEnabled(false);
-        } else {
-            pathFile.setEnabled(true);
-            openFile.setEnabled(true);
-        }
-    }
-
     private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
+        seleccionado = new JFileChooser();
+        archivo = null;
         if (seleccionado.showDialog(null, "Open File") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionado.getSelectedFile();
             if (archivo.canRead() && archivo.getName().endsWith("txt")) {
@@ -228,8 +210,10 @@ public void proveToken() {
     private void showResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showResultActionPerformed
         contenido.setText(null);
         contentFile = new ArrayList<>();
+        files = new Archivos();
         if (dt.isSelected()) {
             contentToken = files.OpenToken("src/recursos/Tokens.txt");
+            checkFileContent();
         } else if (pathToken.getText().endsWith("txt")) {
             if (files.canread(pathToken.getText())) {
                 contentToken = files.OpenToken(pathToken.getText());
@@ -237,26 +221,13 @@ public void proveToken() {
                 JOptionPane.showMessageDialog(null, "Please write a correct path directory for token");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please first select a .txt file");
-        }
-        if (df.isSelected()) {
-            contentFile = files.OpenFile("src/recursos/Entrada.txt");
-            verificarTokens();
-        } else if (pathFile.getText().endsWith("txt")) {
-
-            if (files.canread(pathFile.getText())) {
-                contentFile = files.OpenFile(pathFile.getText());
-                verificarTokens();
-            } else {
-                JOptionPane.showMessageDialog(null, "Please write a correct path directory for file");
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Please first select a file");
+            JOptionPane.showMessageDialog(null, "Please write a correct path directory for token");
         }
     }//GEN-LAST:event_showResultActionPerformed
 
     private void openTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTokenActionPerformed
+        archivo = null;
+        seleccionado = new JFileChooser();
         if (seleccionado.showDialog(null, "Open File") == JFileChooser.APPROVE_OPTION) {
             tokens = seleccionado.getSelectedFile();
             if (tokens.canRead() && tokens.getName().endsWith("txt")) {
@@ -289,21 +260,22 @@ public void proveToken() {
     }//GEN-LAST:event_cfActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        if(!contenido.getText().trim().equals("")){
+        files = new Archivos();
+        seleccionado = new JFileChooser();
+        if (!contenido.getText().trim().equals("")) {
             if (seleccionado.showDialog(null, "Save File") == JFileChooser.APPROVE_OPTION) {
-            archivo = seleccionado.getSelectedFile();
-            if (archivo.getName().endsWith("txt")) {
-                String cont=contenido.getText();
-                String respuesta=files.SaveText(archivo, contentFile);
+                archivo = seleccionado.getSelectedFile();
+                if (archivo.getName().endsWith("txt")) {
+                    String cont = contenido.getText();
+                    String respuesta = files.SaveText(archivo, contentFile);
                     JOptionPane.showMessageDialog(null, respuesta);
-            } else {
-                JOptionPane.showMessageDialog(null, "El archivo se debe guardar como .txt");
+                } else {
+                    JOptionPane.showMessageDialog(null, "The file most be saved as .txt extenssion");
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Sorry... You have to select correct tokens and sample files first ☺");
         }
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un archivo txt primero");
-        }
-        
     }//GEN-LAST:event_saveActionPerformed
 
     public static void main(String args[]) {
@@ -360,5 +332,49 @@ public void proveToken() {
         }).forEach((result) -> {
             contenido.append(result.getDefinicion() + "\t" + result.getResultado() + "\n");
         });
+    }
+
+    private void checkFileContent() {
+        if (df.isSelected()) {
+            contentFile = files.OpenFile("src/recursos/Entrada.txt");
+            if (contentToken == null) {
+                JOptionPane.showMessageDialog(null, "wrong tokens");
+            } else {
+                verificarTokens();
+            }
+        } else if (pathFile.getText().endsWith("txt")) {
+            if (files.canread(pathFile.getText())) {
+                contentFile = files.OpenFile(pathFile.getText());
+                if (contentToken == null) {
+                    JOptionPane.showMessageDialog(null, "wrong tokens");
+                } else {
+                    verificarTokens();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please write a correct path directory for file");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please write a correct path directory for file");
+        }
+    }
+
+    public void proveToken() {
+        if (dt.isSelected()) {
+            pathToken.setEnabled(false);
+            openToken.setEnabled(false);
+        } else {
+            pathToken.setEnabled(true);
+            openToken.setEnabled(true);
+        }
+    }
+
+    public void proveFile() {
+        if (df.isSelected()) {
+            pathFile.setEnabled(false);
+            openFile.setEnabled(false);
+        } else {
+            pathFile.setEnabled(true);
+            openFile.setEnabled(true);
+        }
     }
 }

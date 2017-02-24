@@ -45,7 +45,8 @@ public class Archivos {
             }
             reader.close();
         } catch (Exception e) {
-            System.err.println("Problema en: " + e);
+            System.err.println("Problema en: "+this.OpenFile(direccion) + e);
+            return null;
         }
         return tokenPatron;
     }
