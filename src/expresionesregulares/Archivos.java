@@ -41,6 +41,7 @@ public class Archivos {
                     String replace = tokenPatron.get(y).getExpression().replace("λ", "");
                     tokenPatron.get(y).setExpression(replace);
                 }
+                
                 y++;
             }
             reader.close();
@@ -102,3 +103,9 @@ public class Archivos {
         return respuesta;
     }
 }
+/*
+
+[a-z&&[^bc]]	a through z, except for b and c: [ad-z] (subtraction)
+[a-z&&[^m-p]]	a through z, and not m through p: [a-lq-z](subtraction)
+change value contains()"|X|" replace "|"
+*/
