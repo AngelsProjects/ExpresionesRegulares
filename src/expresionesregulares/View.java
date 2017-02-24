@@ -236,7 +236,7 @@ public class View extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a file text");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a file text");
+            JOptionPane.showMessageDialog(null, "Please select a file");
         }
     }//GEN-LAST:event_openTokenActionPerformed
 
@@ -317,11 +317,14 @@ public class View extends javax.swing.JFrame {
         contentFile.stream().map((result) -> {
             boolean flag = false;
             String names = null;
-            for (int x = 0; x < contentToken.size(); x++) {
-                if (result.getDefinicion().matches(contentToken.get(x).getExpression())) {
+            int tamanio=contentToken.size();
+            int y=0;
+            while(flag==false&&y<tamanio){
+                if (result.getDefinicion().matches(contentToken.get(y).getExpression())) {
                     flag = true;
-                    names = contentToken.get(x).getName();
+                    names = contentToken.get(y).getName();
                 }
+                y++;
             }
             if (flag == true) {
                 result.setResultado(names);

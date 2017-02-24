@@ -76,6 +76,7 @@ public class Archivos {
             reader.close();
         } catch (Exception e) {
             System.err.println("Problema en: " + e);
+            return null;
         }
         return linesFile;
     }
