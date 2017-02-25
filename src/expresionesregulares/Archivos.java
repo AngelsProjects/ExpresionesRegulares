@@ -20,7 +20,7 @@ public class Archivos {
             String line;
             int y = 0;
             while ((line = reader.readLine()) != null) {
-                tokenPatron.add(new Tokens(line.substring(1, (line.indexOf(";") - 1)), line.substring(line.indexOf(";") + 1)));
+                tokenPatron.add(new Tokens(line.substring(1, (line.indexOf(";") - 1)), line.substring(line.indexOf(";") + 1).trim()));
                 if (tokenPatron.get(y).getExpression().contains("//")) {
                     String replace = tokenPatron.get(y).getExpression().replace("//", "[/][/]");
                     tokenPatron.get(y).setExpression(replace);
