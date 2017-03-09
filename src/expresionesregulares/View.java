@@ -287,6 +287,7 @@ public class View extends javax.swing.JFrame {
         } else if (pathToken.getText().endsWith("txt")) {
             if (files.canread(pathToken.getText())) {
                 contentToken = files.OpenToken(pathToken.getText());
+                checkFileContent();
             } else {
                 JOptionPane.showMessageDialog(null, "Please write a correct path directory for token");
             }
@@ -360,9 +361,9 @@ public class View extends javax.swing.JFrame {
         contentFile.stream().map((result) -> {
             boolean flag = false;
             String names = null;
-            int tamanio=contentToken.size();
-            int y=0;
-            while(flag==false&&y<tamanio){
+            int tamanio = contentToken.size();
+            int y = 0;
+            while (flag == false && y < tamanio) {
                 if (result.getDefinicion().matches(contentToken.get(y).getExpression())) {
                     flag = true;
                     names = contentToken.get(y).getName();
